@@ -252,4 +252,35 @@
   margin-top: 1em;
 }
 
+/* 句会名・開催日・兼題を横一行にする */
+.meeting-list .meeting-card {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+}
 
+.meeting-list .meeting-card h3 {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.meeting-list .meeting-card dl {
+  display: contents;
+}
+
+.meeting-list .meeting-card dl > div {
+  margin: 0;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.meeting-list .meeting-card dt {
+  min-width: 0;
+}
+
+.meeting-list .meeting-card .haiku-list-actions {
+  grid-column: 1 / -1;
+  margin: 8px 0 0;
+}
