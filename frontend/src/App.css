@@ -216,3 +216,9 @@
   padding-bottom: 0;
   min-height: 0;
 }
+
+/* 季節・推敲中と点句の間の余白をなくす */
+.haiku-list-page .haiku-card-meta:first-child {
+  min-height: 0;
+  margin-bottom: 0;
+}
