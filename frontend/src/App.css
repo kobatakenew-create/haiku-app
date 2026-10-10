@@ -246,3 +246,10 @@
 .haiku-list-page .haiku-card-meta:nth-child(2) {
   margin-top: 0.5em;
 }
+
+/* 編集ボタンの上を一文字分空ける */
+.haiku-list-page .haiku-edit-button {
+  margin-top: 1em;
+}
+
+
