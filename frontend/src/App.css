@@ -222,3 +222,17 @@
   min-height: 0;
   margin-bottom: 0;
 }
+
+/* 夏・完成と点句の行間を詰める */
+.haiku-list-page .haiku-card-meta {
+  min-height: 0;
+  line-height: 1.2;
+}
+
+.haiku-list-page .haiku-card-meta:first-child {
+  margin: 0;
+}
+
+.haiku-list-page .haiku-card-meta:nth-child(2) {
+  margin-top: 0;
+}
