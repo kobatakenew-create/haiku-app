@@ -241,3 +241,8 @@
 .haiku-list-page .haiku-card-meta:nth-child(2) {
   margin-top: -4px;
 }
+
+/* 点句の上を文字半分ほど開ける */
+.haiku-list-page .haiku-card-meta:nth-child(2) {
+  margin-top: 0.5em;
+}
