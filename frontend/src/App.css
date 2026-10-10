@@ -199,3 +199,12 @@
     font-size: 18px;
   }
 }
+
+/* スマホの俳句欄を半分の幅にする */
+@media (max-width: 600px) {
+  .haiku-list-page .haiku-grid {
+    grid-template-columns: repeat(5, 75px);
+    min-width: 407px;
+    gap: 8px;
+  }
+}
