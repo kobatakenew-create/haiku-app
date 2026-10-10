@@ -199,7 +199,7 @@ function MeetingHaikuListPage({
                     className="haiku-edit-button"
                     onClick={() => onEditPoints(haiku)}
                   >
-                    点句を変更
+                    改点
                   </button>
                 </article>
               ))}

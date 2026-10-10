@@ -84,7 +84,7 @@ export default function HomePage({
         )}
 
         <button type="button" onClick={onCreate} disabled={isLoggingOut}>
-          俳句を登録する
+          作句登録
         </button>
 
         <button
@@ -93,7 +93,7 @@ export default function HomePage({
           onClick={onList}
           disabled={isLoggingOut}
         >
-          俳句一覧を見る
+          「俳句」一覧
         </button>
 
         <button
@@ -102,7 +102,7 @@ export default function HomePage({
           onClick={onMeetings}
           disabled={isLoggingOut}
         >
-          句会一覧を見る
+          「句会」一覧
         </button>
 
         {logoutError && (

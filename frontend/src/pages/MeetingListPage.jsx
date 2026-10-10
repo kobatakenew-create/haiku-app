@@ -60,7 +60,7 @@ export default function MeetingListPage({
     <main className="haiku-list-page">
       <header className="haiku-list-header">
         <h1>俳句帳</h1>
-        <h2>句会一覧</h2>
+        <h2>句会作品一覧</h2>
       </header>
 
       <div className="haiku-list-actions">
@@ -124,7 +124,7 @@ export default function MeetingListPage({
                     onClick={() => onOpen(meeting)}
                     aria-label={`${meeting.meetingName}の俳句を見る`}
                   >
-                    俳句を見る
+                    俳句を詠む
                   </button>
 
                   <button
@@ -133,7 +133,7 @@ export default function MeetingListPage({
                     onClick={() => onEdit(meeting)}
                     aria-label={`${meeting.meetingName}を編集する`}
                   >
-                    編集する
+                    編集
                   </button>
                 </div>
               </article>

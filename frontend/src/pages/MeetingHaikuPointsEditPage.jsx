@@ -90,7 +90,16 @@ function MeetingHaikuPointsEditPage({
         <h2>点句を変更</h2>
 
         <p>句会：{meeting.meetingName}</p>
-        <p>俳句：{haiku.text}</p>
+
+        <p
+          style={{
+            fontSize: "1.1em",
+            fontWeight: 700,
+            overflowWrap: "anywhere",
+          }}
+        >
+          俳句：{haiku.text}
+        </p>
 
         {error && (
           <p className="error-message" role="alert">

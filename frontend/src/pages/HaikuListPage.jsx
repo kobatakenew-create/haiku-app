@@ -4,6 +4,13 @@ import { getHaikus } from "../api/haikuApi";
 const SEASONS = ["春", "夏", "秋", "冬"];
 const PAGE_SIZE = 5;
 
+function formatHaikuText(text) {
+  return text.replace(
+    /[0-9]/g,
+    (digit) => "０１２３４５６７８９"[Number(digit)],
+  );
+}
+
 function HaikuListPage({ onCreate, onEdit, onBack, onLoginRequired }) {
   const [haikus, setHaikus] = useState([]);
   const [view, setView] = useState("registered");
@@ -94,7 +101,7 @@ function HaikuListPage({ onCreate, onEdit, onBack, onLoginRequired }) {
 
       <div className="haiku-list-actions">
         <button type="button" onClick={onCreate}>
-          俳句を登録する
+          作句
         </button>
         <button type="button" className="secondary-button" onClick={onBack}>
           ホームへ戻る
@@ -107,7 +114,7 @@ function HaikuListPage({ onCreate, onEdit, onBack, onLoginRequired }) {
           aria-pressed={view === "registered"}
           onClick={() => changeView("registered")}
         >
-          登録順
+          作句順
         </button>
         <button
           type="button"
@@ -197,14 +204,16 @@ function HaikuListPage({ onCreate, onEdit, onBack, onLoginRequired }) {
                     点句：{haiku.points == null ? "－" : haiku.points}
                   </p>
 
-                  <p className="haiku-card-text">{haiku.text}</p>
+                  <p className="haiku-card-text">
+                    {formatHaikuText(haiku.text)}
+                  </p>
 
                   <button
                     type="button"
                     className="haiku-edit-button"
                     onClick={() => onEdit(haiku)}
                   >
-                    編集する
+                    編集
                   </button>
                 </article>
               ))}
