@@ -1,0 +1,201 @@
+/* 画面全体 */
+.haiku-list-page {
+  max-width: 1040px;
+  padding: 40px 24px;
+}
+
+.haiku-list-header h1 {
+  margin-bottom: 8px;
+  font-size: 32px;
+  letter-spacing: 0.12em;
+}
+
+.haiku-list-header h2 {
+  margin-bottom: 24px;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.haiku-list-header > p {
+  margin: 0 0 24px;
+  color: #626b5e;
+  font-size: 14px;
+}
+
+/* 操作ボタン */
+.haiku-list-actions {
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.haiku-list-actions button {
+  min-height: 44px;
+  font-size: 14px;
+}
+
+.haiku-filter-buttons {
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.haiku-filter-buttons button {
+  min-height: 44px;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 22px;
+}
+
+.haiku-list-page .haiku-list-message {
+  padding: 12px 0 20px;
+  color: #626b5e;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.haiku-list-page .error-message {
+  color: #a12c2c;
+}
+
+/* 一段・五列の俳句 */
+.haiku-list-scroll {
+  padding-bottom: 8px;
+}
+
+.haiku-grid {
+  min-width: 0;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.haiku-card {
+  min-width: 0;
+  padding: 20px 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 3px 12px rgb(48 56 47 / 3%);
+}
+
+.haiku-card-meta {
+  width: 100%;
+  min-height: 24px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #626b5e;
+  overflow-wrap: anywhere;
+}
+
+.haiku-card-meta:first-child {
+  min-height: 42px;
+}
+
+.haiku-card-text {
+  font-size: 24px;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  color: #30382f;
+}
+
+.haiku-edit-button {
+  min-height: 44px;
+  margin-top: 24px;
+  padding: 8px 4px;
+  font-size: 13px;
+  border-color: #d9ddd3;
+}
+
+.haiku-pagination {
+  gap: 12px;
+}
+
+.haiku-pagination span {
+  color: #626b5e;
+  font-size: 13px;
+}
+
+/* iPhoneなどの小さい画面 */
+@media (max-width: 600px) {
+  .auth-page {
+    min-height: 100svh;
+    padding: 24px 16px;
+  }
+
+  .auth-card {
+    padding: 28px 24px;
+  }
+
+  .auth-card h1 {
+    font-size: 32px;
+    letter-spacing: 0.1em;
+  }
+
+  .auth-card h2 {
+    font-size: 21px;
+    font-weight: 400;
+  }
+
+  .haiku-list-page {
+    padding: 24px 12px;
+  }
+
+  .haiku-list-header h1 {
+    font-size: 28px;
+  }
+
+  .haiku-list-header h2 {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+
+  .haiku-list-actions {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .haiku-list-actions button {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .haiku-filter-buttons button {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .haiku-grid {
+    gap: 4px;
+  }
+
+  .haiku-card {
+    padding: 14px 3px 8px;
+    border-radius: 5px;
+  }
+
+  .haiku-card-meta {
+    margin-bottom: 10px;
+    font-size: 11px;
+  }
+
+  .haiku-card-meta:first-child {
+    min-height: 56px;
+  }
+
+  .haiku-card-text {
+    font-size: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  .haiku-edit-button {
+    margin-top: 20px;
+    padding: 8px 1px;
+    font-size: 11px;
+  }
+
+  .meeting-card {
+    padding: 20px;
+  }
+
+  .meeting-card h3 {
+    font-size: 18px;
+  }
+}
