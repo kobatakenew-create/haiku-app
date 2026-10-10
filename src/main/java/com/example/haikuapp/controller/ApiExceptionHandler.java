@@ -1,9 +1,13 @@
 package com.example.haikuapp.controller;
 
 import com.example.haikuapp.service.DuplicateLoginIdException;
+import com.example.haikuapp.service.DuplicateMeetingHaikuException;
 import com.example.haikuapp.service.HaikuNotFoundException;
 import com.example.haikuapp.service.InvalidCredentialsException;
 import com.example.haikuapp.service.InvalidHaikuException;
+import com.example.haikuapp.service.InvalidMeetingException;
+import com.example.haikuapp.service.MeetingHaikuNotFoundException;
+import com.example.haikuapp.service.MeetingNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -65,6 +69,38 @@ public class ApiExceptionHandler {
     @ExceptionHandler(HaikuNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleHaikuNotFound(
             HaikuNotFoundException exception
+    ) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(List.of(exception.getMessage())));
+    }
+
+    @ExceptionHandler(InvalidMeetingException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidMeeting(
+            InvalidMeetingException exception
+    ) {
+        return ResponseEntity.badRequest()
+                .body(new ErrorResponse(List.of(exception.getMessage())));
+    }
+
+    @ExceptionHandler(MeetingNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleMeetingNotFound(
+            MeetingNotFoundException exception
+    ) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(List.of(exception.getMessage())));
+    }
+
+    @ExceptionHandler(DuplicateMeetingHaikuException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateMeetingHaiku(
+            DuplicateMeetingHaikuException exception
+    ) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorResponse(List.of(exception.getMessage())));
+    }
+
+    @ExceptionHandler(MeetingHaikuNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleMeetingHaikuNotFound(
+            MeetingHaikuNotFoundException exception
     ) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(List.of(exception.getMessage())));

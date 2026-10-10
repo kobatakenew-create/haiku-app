@@ -63,3 +63,50 @@ CREATE TABLE IF NOT EXISTS remember_me_tokens (
     INDEX idx_remember_me_tokens_expires (expires_at)
     ) ENGINE=InnoDB
     DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS meetings (
+                                        meeting_id BIGINT NOT NULL AUTO_INCREMENT,
+                                        user_id BIGINT NOT NULL,
+                                        meeting_name VARCHAR(100) NOT NULL,
+    meeting_date DATE NOT NULL,
+    theme VARCHAR(100),
+    created_at DATETIME(6) NOT NULL,
+    updated_at DATETIME(6) NOT NULL,
+
+    PRIMARY KEY (meeting_id),
+
+    CONSTRAINT fk_meetings_user
+    FOREIGN KEY (user_id) REFERENCES users (user_id),
+
+    INDEX idx_meetings_user_date (
+                                     user_id,
+                                     meeting_date,
+                                     meeting_id
+                                 )
+    ) ENGINE=InnoDB
+    DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS meeting_haikus (
+                                              meeting_haiku_id BIGINT NOT NULL AUTO_INCREMENT,
+                                              meeting_id BIGINT NOT NULL,
+                                              haiku_id BIGINT NOT NULL,
+                                              points INT NULL,
+                                              created_at DATETIME(6) NOT NULL,
+
+    PRIMARY KEY (meeting_haiku_id),
+
+    CONSTRAINT uq_meeting_haikus_meeting_haiku
+    UNIQUE (meeting_id, haiku_id),
+
+    CONSTRAINT fk_meeting_haikus_meeting
+    FOREIGN KEY (meeting_id) REFERENCES meetings (meeting_id)
+    ON DELETE CASCADE,
+
+    CONSTRAINT fk_meeting_haikus_haiku
+    FOREIGN KEY (haiku_id) REFERENCES haikus (haiku_id)
+    ON DELETE CASCADE,
+
+    CONSTRAINT chk_meeting_haikus_points
+    CHECK (points IS NULL OR points BETWEEN 1 AND 20)
+    ) ENGINE=InnoDB
+    DEFAULT CHARSET=utf8mb4;
