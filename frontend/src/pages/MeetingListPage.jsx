@@ -1,3 +1,4 @@
+import HaikuTitle from "../components/HaikuTitle";
 import { useEffect, useState } from "react";
 import { getMeetings } from "../api/meetingApi";
 
@@ -59,7 +60,7 @@ export default function MeetingListPage({
   return (
     <main className="haiku-list-page">
       <header className="haiku-list-header">
-        <h1>俳句帳</h1>
+        <HaikuTitle />
         <h2>句会作品一覧</h2>
       </header>
 
@@ -144,3 +145,4 @@ export default function MeetingListPage({
     </main>
   );
 }
+

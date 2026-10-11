@@ -1,3 +1,4 @@
+import HaikuTitle from "../components/HaikuTitle";
 import { useEffect, useState } from "react";
 import { getMeetingHaikus } from "../api/meetingApi";
 
@@ -96,7 +97,7 @@ function MeetingHaikuListPage({
   return (
     <main className="haiku-list-page">
       <header className="haiku-list-header">
-        <h1>俳句帳</h1>
+        <HaikuTitle />
         <h2>{meeting.meetingName}</h2>
         <p>
           開催日：{meeting.meetingDate.replaceAll("-", "/")}
@@ -232,3 +233,4 @@ function MeetingHaikuListPage({
 }
 
 export default MeetingHaikuListPage;
+

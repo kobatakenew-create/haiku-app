@@ -1,3 +1,4 @@
+import HaikuTitle from "../components/HaikuTitle";
 import { useEffect, useState } from "react";
 import { getHaikus } from "../api/haikuApi";
 
@@ -95,7 +96,7 @@ function HaikuListPage({ onCreate, onEdit, onBack, onLoginRequired }) {
   return (
     <main className="haiku-list-page">
       <header className="haiku-list-header">
-        <h1>俳句帳</h1>
+        <HaikuTitle />
         <h2>俳句一覧</h2>
       </header>
 
@@ -248,3 +249,4 @@ function HaikuListPage({ onCreate, onEdit, onBack, onLoginRequired }) {
 }
 
 export default HaikuListPage;
+

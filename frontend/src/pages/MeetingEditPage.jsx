@@ -1,3 +1,4 @@
+import HaikuTitle from "../components/HaikuTitle";
 import { useState } from "react";
 import { deleteMeeting, updateMeeting } from "../api/meetingApi";
 
@@ -99,7 +100,7 @@ function MeetingEditPage({ meeting, onSaved, onBack, onLoginRequired }) {
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <h1>俳句帳</h1>
+        <HaikuTitle />
         <h2>句会を編集</h2>
 
         {error && (
@@ -168,3 +169,4 @@ function MeetingEditPage({ meeting, onSaved, onBack, onLoginRequired }) {
 }
 
 export default MeetingEditPage;
+

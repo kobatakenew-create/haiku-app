@@ -1,3 +1,4 @@
+import HaikuTitle from "../components/HaikuTitle";
 import { useState } from "react";
 import { deleteHaiku, updateHaiku } from "../api/haikuApi";
 
@@ -99,7 +100,7 @@ function HaikuEditPage({ haiku, onSaved, onDeleted, onBack, onLoginRequired }) {
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <h1>俳句帳</h1>
+        <HaikuTitle />
         <h2>俳句編集</h2>
 
         <form onSubmit={handleSubmit}>
@@ -211,3 +212,4 @@ function HaikuEditPage({ haiku, onSaved, onDeleted, onBack, onLoginRequired }) {
 }
 
 export default HaikuEditPage;
+

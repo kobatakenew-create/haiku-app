@@ -1,3 +1,4 @@
+import HaikuTitle from "../components/HaikuTitle";
 import { useEffect, useState } from "react";
 import { getHaikus } from "../api/haikuApi";
 import { addMeetingHaiku, getMeetingHaikus } from "../api/meetingApi";
@@ -101,7 +102,7 @@ function MeetingHaikuAddPage({ meeting, onAdded, onBack, onLoginRequired }) {
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <h1>俳句帳</h1>
+        <HaikuTitle />
         <h2>句会に俳句を追加</h2>
         <p>句会：{meeting.meetingName}</p>
 
@@ -160,3 +161,4 @@ function MeetingHaikuAddPage({ meeting, onAdded, onBack, onLoginRequired }) {
 }
 
 export default MeetingHaikuAddPage;
+

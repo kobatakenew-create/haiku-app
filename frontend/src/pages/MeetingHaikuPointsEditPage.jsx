@@ -1,3 +1,4 @@
+import HaikuTitle from "../components/HaikuTitle";
 import { useState } from "react";
 import {
   deleteMeetingHaiku,
@@ -86,7 +87,7 @@ function MeetingHaikuPointsEditPage({
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <h1>俳句帳</h1>
+        <HaikuTitle />
         <h2>点句を変更</h2>
 
         <p>句会：{meeting.meetingName}</p>
@@ -152,3 +153,4 @@ function MeetingHaikuPointsEditPage({
 }
 
 export default MeetingHaikuPointsEditPage;
+

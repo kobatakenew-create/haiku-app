@@ -1,3 +1,4 @@
+import HaikuTitle from "../components/HaikuTitle";
 import { useEffect, useState } from "react";
 import { getHaikus } from "../api/haikuApi";
 
@@ -58,7 +59,7 @@ export default function HomePage({
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <h1>俳句帳</h1>
+        <HaikuTitle />
         <h2>ホーム</h2>
 
         {notice && <p role="status">{notice}</p>}
@@ -123,3 +124,4 @@ export default function HomePage({
     </main>
   );
 }
+

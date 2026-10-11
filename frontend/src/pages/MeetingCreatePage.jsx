@@ -1,3 +1,4 @@
+import HaikuTitle from "../components/HaikuTitle";
 import { useState } from "react";
 import { createMeeting } from "../api/meetingApi";
 
@@ -69,7 +70,7 @@ export default function MeetingCreatePage({
   return (
     <main className="auth-page">
       <section className="auth-card" aria-labelledby="meeting-create-title">
-        <h1>俳句帳</h1>
+        <HaikuTitle />
         <h2 id="meeting-create-title">句会登録</h2>
 
         <form onSubmit={handleSubmit}>
@@ -129,3 +130,4 @@ export default function MeetingCreatePage({
     </main>
   );
 }
+

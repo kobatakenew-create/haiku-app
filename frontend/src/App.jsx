@@ -12,6 +12,7 @@ import MeetingHaikuListPage from "./pages/MeetingHaikuListPage";
 import MeetingHaikuAddPage from "./pages/MeetingHaikuAddPage";
 import MeetingHaikuPointsEditPage from "./pages/MeetingHaikuPointsEditPage";
 import { getCurrentSession, logoutUser } from "./api/authApi";
+import { HaikuTitleContext } from "./components/HaikuTitle";
 import "./App.css";
 
 function App() {
@@ -169,173 +170,184 @@ function App() {
     }
   }
 
-  if (isCheckingSession) {
-    return <p role="status">ログイン状態を確認しています…</p>;
-  }
+  function renderPage() {
+    if (isCheckingSession) {
+      return <p role="status">ログイン状態を確認しています…</p>;
+    }
 
-  if (sessionError) {
-    return (
-      <main className="auth-page">
-        <section className="auth-card">
-          <h1>俳句帳</h1>
-          <p role="alert">{sessionError}</p>
-          <button type="button" onClick={retrySessionCheck}>
-            再試行
-          </button>
-        </section>
-      </main>
-    );
-  }
-
-  if (user) {
-    if (page === "meeting-edit" && selectedMeeting) {
+    if (sessionError) {
       return (
-        <MeetingEditPage
-          key={selectedMeeting.meetingId}
-          meeting={selectedMeeting}
-          onSaved={openMeetingListPage}
-          onBack={openMeetingListPage}
-          onLoginRequired={handleLoginRequired}
-        />
+        <main className="auth-page">
+          <section className="auth-card">
+            <h1>俳句帳</h1>
+            <p role="alert">{sessionError}</p>
+            <button type="button" onClick={retrySessionCheck}>
+              再試行
+            </button>
+          </section>
+        </main>
       );
     }
 
-    if (
-      page === "meeting-haiku-points-edit" &&
-      selectedMeeting &&
-      editingMeetingHaiku
-    ) {
-      return (
-        <MeetingHaikuPointsEditPage
-          key={editingMeetingHaiku.meetingHaikuId}
-          meeting={selectedMeeting}
-          haiku={editingMeetingHaiku}
-          onSaved={returnToMeetingHaikuList}
-          onBack={returnToMeetingHaikuList}
-          onLoginRequired={handleLoginRequired}
-        />
-      );
-    }
+    if (user) {
+      if (page === "meeting-edit" && selectedMeeting) {
+        return (
+          <MeetingEditPage
+            key={selectedMeeting.meetingId}
+            meeting={selectedMeeting}
+            onSaved={openMeetingListPage}
+            onBack={openMeetingListPage}
+            onLoginRequired={handleLoginRequired}
+          />
+        );
+      }
 
-    if (page === "meeting-haiku-add" && selectedMeeting) {
-      return (
-        <MeetingHaikuAddPage
-          key={selectedMeeting.meetingId}
-          meeting={selectedMeeting}
-          onAdded={returnToMeetingHaikuList}
-          onBack={returnToMeetingHaikuList}
-          onLoginRequired={handleLoginRequired}
-        />
-      );
-    }
+      if (
+        page === "meeting-haiku-points-edit" &&
+        selectedMeeting &&
+        editingMeetingHaiku
+      ) {
+        return (
+          <MeetingHaikuPointsEditPage
+            key={editingMeetingHaiku.meetingHaikuId}
+            meeting={selectedMeeting}
+            haiku={editingMeetingHaiku}
+            onSaved={returnToMeetingHaikuList}
+            onBack={returnToMeetingHaikuList}
+            onLoginRequired={handleLoginRequired}
+          />
+        );
+      }
 
-    if (page === "meeting-haiku-list" && selectedMeeting) {
-      return (
-        <MeetingHaikuListPage
-          key={selectedMeeting.meetingId}
-          meeting={selectedMeeting}
-          onAdd={() => setPage("meeting-haiku-add")}
-          onEditPoints={openMeetingHaikuPointsEditPage}
-          onBack={openMeetingListPage}
-          onLoginRequired={handleLoginRequired}
-        />
-      );
-    }
+      if (page === "meeting-haiku-add" && selectedMeeting) {
+        return (
+          <MeetingHaikuAddPage
+            key={selectedMeeting.meetingId}
+            meeting={selectedMeeting}
+            onAdded={returnToMeetingHaikuList}
+            onBack={returnToMeetingHaikuList}
+            onLoginRequired={handleLoginRequired}
+          />
+        );
+      }
 
-    if (page === "meeting-create") {
-      return (
-        <MeetingCreatePage
-          onSaved={openMeetingListPage}
-          onBack={openMeetingListPage}
-          onLoginRequired={handleLoginRequired}
-        />
-      );
-    }
+      if (page === "meeting-haiku-list" && selectedMeeting) {
+        return (
+          <MeetingHaikuListPage
+            key={selectedMeeting.meetingId}
+            meeting={selectedMeeting}
+            onAdd={() => setPage("meeting-haiku-add")}
+            onEditPoints={openMeetingHaikuPointsEditPage}
+            onBack={openMeetingListPage}
+            onLoginRequired={handleLoginRequired}
+          />
+        );
+      }
 
-    if (page === "meeting-list") {
-      return (
-        <MeetingListPage
-          onCreate={openMeetingCreatePage}
-          onOpen={openMeetingHaikuListPage}
-          onEdit={openMeetingEditPage}
-          onBack={() => setPage("home")}
-          onLoginRequired={handleLoginRequired}
-        />
-      );
-    }
+      if (page === "meeting-create") {
+        return (
+          <MeetingCreatePage
+            onSaved={openMeetingListPage}
+            onBack={openMeetingListPage}
+            onLoginRequired={handleLoginRequired}
+          />
+        );
+      }
 
-    if (page === "haiku-edit" && editingHaiku) {
-      return (
-        <HaikuEditPage
-          key={editingHaiku.haikuId}
-          haiku={editingHaiku}
-          onSaved={returnToList}
-          onDeleted={returnToList}
-          onBack={returnToList}
-          onLoginRequired={handleLoginRequired}
-        />
-      );
-    }
+      if (page === "meeting-list") {
+        return (
+          <MeetingListPage
+            onCreate={openMeetingCreatePage}
+            onOpen={openMeetingHaikuListPage}
+            onEdit={openMeetingEditPage}
+            onBack={() => setPage("home")}
+            onLoginRequired={handleLoginRequired}
+          />
+        );
+      }
 
-    if (page === "haiku-list") {
+      if (page === "haiku-edit" && editingHaiku) {
+        return (
+          <HaikuEditPage
+            key={editingHaiku.haikuId}
+            haiku={editingHaiku}
+            onSaved={returnToList}
+            onDeleted={returnToList}
+            onBack={returnToList}
+            onLoginRequired={handleLoginRequired}
+          />
+        );
+      }
+
+      if (page === "haiku-list") {
+        return (
+          <HaikuListPage
+            onCreate={openCreatePage}
+            onEdit={(haiku) => {
+              setEditingHaiku(haiku);
+              setPage("haiku-edit");
+            }}
+            onBack={() => setPage("home")}
+            onLoginRequired={handleLoginRequired}
+          />
+        );
+      }
+
+      if (page === "haiku-create") {
+        return (
+          <HaikuCreatePage
+            onSaved={handleHaikuSaved}
+            onBack={() => setPage("home")}
+            onLoginRequired={handleLoginRequired}
+          />
+        );
+      }
+
       return (
-        <HaikuListPage
+        <HomePage
+          key={user.userId}
+          notice={notice}
           onCreate={openCreatePage}
-          onEdit={(haiku) => {
-            setEditingHaiku(haiku);
-            setPage("haiku-edit");
-          }}
-          onBack={() => setPage("home")}
+          onList={openListPage}
+          onMeetings={openMeetingListPage}
+          onLogout={handleLogout}
           onLoginRequired={handleLoginRequired}
-        />
-      );
-    }
-
-    if (page === "haiku-create") {
-      return (
-        <HaikuCreatePage
-          onSaved={handleHaikuSaved}
-          onBack={() => setPage("home")}
-          onLoginRequired={handleLoginRequired}
+          logoutError={logoutError}
+          isLoggingOut={isLoggingOut}
         />
       );
     }
 
     return (
-      <HomePage
-        key={user.userId}
-        notice={notice}
-        onCreate={openCreatePage}
-        onList={openListPage}
-        onMeetings={openMeetingListPage}
-        onLogout={handleLogout}
-        onLoginRequired={handleLoginRequired}
-        logoutError={logoutError}
-        isLoggingOut={isLoggingOut}
-      />
+      <>
+        {notice && <p role="status">{notice}</p>}
+
+        {page === "register" ? (
+          <RegisterPage
+            onRegistered={handleRegistered}
+            onBack={() => setPage("login")}
+          />
+        ) : (
+          <LoginPage
+            onLogin={handleLogin}
+            onRegister={() => {
+              setNotice("");
+              setPage("register");
+            }}
+          />
+        )}
+      </>
     );
   }
 
   return (
-    <>
-      {notice && <p role="status">{notice}</p>}
-
-      {page === "register" ? (
-        <RegisterPage
-          onRegistered={handleRegistered}
-          onBack={() => setPage("login")}
-        />
-      ) : (
-        <LoginPage
-          onLogin={handleLogin}
-          onRegister={() => {
-            setNotice("");
-            setPage("register");
-          }}
-        />
-      )}
-    </>
+    <HaikuTitleContext.Provider
+      value={user ? `${user.loginId}の俳句帳` : "俳句帳"}
+    >
+      {renderPage()}
+    </HaikuTitleContext.Provider>
   );
 }
 
 export default App;
+

@@ -415,3 +415,35 @@ textarea:focus-visible {
   margin: 0;
   overflow-wrap: anywhere;
 }
+
+/* 春：桃色 */
+.haiku-filter-buttons[aria-label="季節"]
+  button:nth-child(1)[aria-pressed="true"] {
+  color: #30382f;
+  background: #f2aec3;
+  border-color: #f2aec3;
+}
+
+/* 夏：黄色 */
+.haiku-filter-buttons[aria-label="季節"]
+  button:nth-child(2)[aria-pressed="true"] {
+  color: #30382f;
+  background: #fcc601;
+  border-color: #fcc601;
+}
+
+/* 秋：紫色 */
+.haiku-filter-buttons[aria-label="季節"]
+  button:nth-child(3)[aria-pressed="true"] {
+  color: #fff;
+  background: #7b56a3;
+  border-color: #7b56a3;
+}
+
+/* 冬：水色 */
+.haiku-filter-buttons[aria-label="季節"]
+  button:nth-child(4)[aria-pressed="true"] {
+  color: #30382f;
+  background: #a9dcf7;
+  border-color: #a9dcf7;
+}

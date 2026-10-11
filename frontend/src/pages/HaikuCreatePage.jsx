@@ -1,3 +1,4 @@
+import HaikuTitle from "../components/HaikuTitle";
 import { useState } from "react";
 import { createHaiku } from "../api/haikuApi";
 
@@ -54,7 +55,7 @@ function HaikuCreatePage({ onSaved, onBack, onLoginRequired }) {
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <h1>俳句帳</h1>
+        <HaikuTitle />
         <h2>俳句登録</h2>
 
         <form onSubmit={handleSubmit}>
@@ -126,3 +127,4 @@ function HaikuCreatePage({ onSaved, onBack, onLoginRequired }) {
 }
 
 export default HaikuCreatePage;
+
