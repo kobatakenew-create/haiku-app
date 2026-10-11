@@ -14,7 +14,7 @@ createRoot(document.getElementById("root")).render(
         color: "#626b5e",
       }}
     >
-      © GAKU
+      © GAKU_2026
     </footer>
   </StrictMode>,
 );
