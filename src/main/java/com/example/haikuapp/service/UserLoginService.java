@@ -4,6 +4,8 @@ import com.example.haikuapp.service.port.LoginUser;
 import com.example.haikuapp.service.port.PasswordHasher;
 import com.example.haikuapp.service.port.UserLoginPort;
 
+import java.util.Optional;
+
 public class UserLoginService {
 
     private final UserLoginPort userLoginPort;
@@ -25,5 +27,9 @@ public class UserLoginService {
         }
 
         return new LoginResult(user.userId(), user.loginId());
+    }
+    public Optional<LoginResult> findCurrentUser(Long userId) {
+        return userLoginPort.findById(userId)
+                .map(user -> new LoginResult(user.userId(), user.loginId()));
     }
 }

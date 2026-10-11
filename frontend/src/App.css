@@ -528,3 +528,24 @@ body {
     inset 0 0 0 1px rgb(255 244 196 / 55%),
     1px 2px 4px rgb(70 60 40 / 12%);
 }
+
+/* スマホで短冊5枚を横幅に収める */
+@media (max-width: 600px) {
+  .haiku-list-page .haiku-grid {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+    margin-inline: 0;
+  }
+
+  .haiku-list-page .haiku-card {
+    min-width: 0;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .haiku-list-page .haiku-card-meta {
+    font-size: 10px;
+  }
+}

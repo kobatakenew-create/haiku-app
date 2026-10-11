@@ -24,4 +24,12 @@ public class JpaUserLoginAdapter implements UserLoginPort {
                         user.getLoginId(),
                         user.getPasswordHash()));
     }
+    @Override
+    public Optional<LoginUser> findById(Long userId) {
+        return userRepository.findById(userId)
+                .map(user -> new LoginUser(
+                        user.getUserId(),
+                        user.getLoginId(),
+                        user.getPasswordHash()));
+    }
 }

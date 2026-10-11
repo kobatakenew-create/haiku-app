@@ -1,6 +1,8 @@
 package com.example.haikuapp.controller;
 
+import com.example.haikuapp.service.LoginResult;
 import com.example.haikuapp.service.RememberMeService;
+import com.example.haikuapp.service.UserLoginService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -17,13 +19,16 @@ public class UserSessionController {
 
     private final RememberMeService rememberMeService;
     private final RememberMeCookie rememberMeCookie;
+    private final UserLoginService userLoginService;
 
     public UserSessionController(
             RememberMeService rememberMeService,
-            RememberMeCookie rememberMeCookie
+            RememberMeCookie rememberMeCookie,
+            UserLoginService userLoginService
     ) {
         this.rememberMeService = rememberMeService;
         this.rememberMeCookie = rememberMeCookie;
+        this.userLoginService = userLoginService;
     }
 
     @GetMapping("/api/session")
@@ -35,14 +40,21 @@ public class UserSessionController {
 
         if (session != null
                 && session.getAttribute("userId") instanceof Long userId) {
-            return ResponseEntity.ok(new SessionResponse(userId));
+            Optional<LoginResult> user = userLoginService.findCurrentUser(userId);
+            if (user.isPresent()) {
+                return ResponseEntity.ok(toResponse(user.get()));
+            }
+
+            session.invalidate();
+            rememberMeCookie.clear(request, response);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         String token = rememberMeCookie.read(request);
-        Optional<Long> restoredUserId =
-                rememberMeService.restoreUserId(token);
+        Optional<LoginResult> restoredUser = rememberMeService.restoreUserId(token)
+                .flatMap(userLoginService::findCurrentUser);
 
-        if (restoredUserId.isEmpty()) {
+        if (restoredUser.isEmpty()) {
             if (token != null) {
                 rememberMeCookie.clear(request, response);
             }
@@ -52,10 +64,13 @@ public class UserSessionController {
 
         HttpSession restoredSession = request.getSession();
         request.changeSessionId();
-        restoredSession.setAttribute("userId", restoredUserId.get());
+        restoredSession.setAttribute("userId", restoredUser.get().userId());
 
-        return ResponseEntity.ok(
-                new SessionResponse(restoredUserId.get()));
+        return ResponseEntity.ok(toResponse(restoredUser.get()));
+    }
+
+    private SessionResponse toResponse(LoginResult user) {
+        return new SessionResponse(user.userId(), user.loginId());
     }
 
     @PostMapping("/api/logout")
@@ -76,6 +91,6 @@ public class UserSessionController {
         return ResponseEntity.noContent().build();
     }
 
-    public record SessionResponse(Long userId) {
+    public record SessionResponse(Long userId, String loginId) {
     }
 }
