@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { registerUser } from "../api/authApi";
 
 export default function RegisterPage({ onRegistered, onBack }) {
@@ -7,9 +7,11 @@ export default function RegisterPage({ onRegistered, onBack }) {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const submissionLock = useRef(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if (submissionLock.current) return;
     setError("");
 
     if (password !== passwordConfirmation) {
@@ -17,6 +19,7 @@ export default function RegisterPage({ onRegistered, onBack }) {
       return;
     }
 
+    submissionLock.current = true;
     setIsSubmitting(true);
 
     try {
@@ -31,6 +34,7 @@ export default function RegisterPage({ onRegistered, onBack }) {
           : error.message,
       );
     } finally {
+      submissionLock.current = false;
       setIsSubmitting(false);
     }
   }
@@ -46,7 +50,10 @@ export default function RegisterPage({ onRegistered, onBack }) {
           <input
             id="register-id"
             value={loginId}
-            onChange={(event) => setLoginId(event.target.value)}
+            onChange={(event) => {
+              setLoginId(event.target.value);
+              setError("");
+            }}
             autoComplete="username"
             pattern="[a-zA-Z0-9]+"
             maxLength={10}
@@ -60,7 +67,10 @@ export default function RegisterPage({ onRegistered, onBack }) {
             id="register-password"
             type="password"
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(event) => {
+              setPassword(event.target.value);
+              setError("");
+            }}
             autoComplete="new-password"
             pattern="[a-zA-Z0-9]+"
             minLength={8}
@@ -75,7 +85,10 @@ export default function RegisterPage({ onRegistered, onBack }) {
             id="register-confirmation"
             type="password"
             value={passwordConfirmation}
-            onChange={(event) => setPasswordConfirmation(event.target.value)}
+            onChange={(event) => {
+              setPasswordConfirmation(event.target.value);
+              setError("");
+            }}
             autoComplete="new-password"
             minLength={8}
             maxLength={10}
@@ -105,3 +118,4 @@ export default function RegisterPage({ onRegistered, onBack }) {
     </main>
   );
 }
+
