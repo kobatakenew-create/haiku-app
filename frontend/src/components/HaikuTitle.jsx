@@ -1,6 +1,5 @@
-import { createContext, useContext } from "react";
-
-export const HaikuTitleContext = createContext("俳句帳");
+import { useContext } from "react";
+import { HaikuTitleContext } from "./HaikuTitleContext";
 
 export default function HaikuTitle() {
   const title = useContext(HaikuTitleContext);

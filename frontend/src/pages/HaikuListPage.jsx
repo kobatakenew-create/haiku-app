@@ -12,11 +12,28 @@ function formatHaikuText(text) {
   );
 }
 
-function HaikuListPage({ onCreate, onEdit, onBack, onLoginRequired }) {
+function getDisplayedHaikus(haikus, view, season) {
+  let displayedHaikus = haikus;
+
+  if (view === "season") {
+    displayedHaikus = haikus.filter((haiku) => haiku.season === season);
+  } else if (view === "points") {
+    displayedHaikus = [...haikus].sort((a, b) => {
+      if (a.points == null && b.points == null) return 0;
+      if (a.points == null) return 1;
+      if (b.points == null) return -1;
+      return b.points - a.points;
+    });
+  }
+
+  return displayedHaikus;
+}
+
+function HaikuListPage({ initialState, onCreate, onEdit, onBack, onLoginRequired }) {
   const [haikus, setHaikus] = useState([]);
-  const [view, setView] = useState("registered");
-  const [season, setSeason] = useState("春");
-  const [page, setPage] = useState(1);
+  const [view, setView] = useState(initialState?.view ?? "registered");
+  const [season, setSeason] = useState(initialState?.season ?? "春");
+  const [page, setPage] = useState(initialState?.page ?? 1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [loadVersion, setLoadVersion] = useState(0);
@@ -30,6 +47,13 @@ function HaikuListPage({ onCreate, onEdit, onBack, onLoginRequired }) {
 
         if (!cancelled) {
           setHaikus(result);
+          if (initialState?.targetHaikuId != null) {
+            const displayed = getDisplayedHaikus(result, initialState.view, initialState.season);
+            const index = displayed.findIndex(
+              (haiku) => haiku.haikuId === initialState.targetHaikuId,
+            );
+            if (index >= 0) setPage(Math.floor(index / PAGE_SIZE) + 1);
+          }
         }
       } catch (error) {
         if (cancelled) return;
@@ -56,7 +80,7 @@ function HaikuListPage({ onCreate, onEdit, onBack, onLoginRequired }) {
     return () => {
       cancelled = true;
     };
-  }, [loadVersion, onLoginRequired]);
+  }, [loadVersion, onLoginRequired, initialState]);
 
   function retryLoad() {
     setError("");
@@ -75,18 +99,7 @@ function HaikuListPage({ onCreate, onEdit, onBack, onLoginRequired }) {
     setPage(1);
   }
 
-  let displayedHaikus = haikus;
-
-  if (view === "season") {
-    displayedHaikus = haikus.filter((haiku) => haiku.season === season);
-  } else if (view === "points") {
-    displayedHaikus = [...haikus].sort((a, b) => {
-      if (a.points == null && b.points == null) return 0;
-      if (a.points == null) return 1;
-      if (b.points == null) return -1;
-      return b.points - a.points;
-    });
-  }
+  const displayedHaikus = getDisplayedHaikus(haikus, view, season);
 
   const pageCount = Math.max(1, Math.ceil(displayedHaikus.length / PAGE_SIZE));
   const currentPage = Math.min(page, pageCount);
@@ -212,7 +225,7 @@ function HaikuListPage({ onCreate, onEdit, onBack, onLoginRequired }) {
                   <button
                     type="button"
                     className="haiku-edit-button"
-                    onClick={() => onEdit(haiku)}
+                    onClick={() => onEdit(haiku, { view, season, page: currentPage })}
                   >
                     編集
                   </button>

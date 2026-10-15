@@ -12,12 +12,13 @@ import MeetingHaikuListPage from "./pages/MeetingHaikuListPage";
 import MeetingHaikuAddPage from "./pages/MeetingHaikuAddPage";
 import MeetingHaikuPointsEditPage from "./pages/MeetingHaikuPointsEditPage";
 import { getCurrentSession, logoutUser } from "./api/authApi";
-import { HaikuTitleContext } from "./components/HaikuTitle";
+import { HaikuTitleContext } from "./components/HaikuTitleContext";
 import "./App.css";
 
 function App() {
   const [page, setPage] = useState("login");
   const [editingHaiku, setEditingHaiku] = useState(null);
+  const [haikuListState, setHaikuListState] = useState(null);
   const [selectedMeeting, setSelectedMeeting] = useState(null);
   const [editingMeetingHaiku, setEditingMeetingHaiku] = useState(null);
   const [user, setUser] = useState(null);
@@ -71,6 +72,7 @@ function App() {
   }
 
   function clearSelections() {
+    setHaikuListState(null);
     setEditingHaiku(null);
     setSelectedMeeting(null);
     setEditingMeetingHaiku(null);
@@ -108,11 +110,19 @@ function App() {
   }
 
   function openListPage() {
+    setHaikuListState(null);
     setNotice("");
     setPage("haiku-list");
   }
 
-  function returnToList() {
+  function returnToList(savedHaiku) {
+    if (savedHaiku) {
+      setHaikuListState((state) => ({
+        ...state,
+        targetHaikuId: savedHaiku.haikuId,
+        ...(state?.view === "season" ? { season: savedHaiku.season } : {}),
+      }));
+    }
     setEditingHaiku(null);
     setPage("haiku-list");
   }
@@ -272,8 +282,8 @@ function App() {
             key={editingHaiku.haikuId}
             haiku={editingHaiku}
             onSaved={returnToList}
-            onDeleted={returnToList}
-            onBack={returnToList}
+            onDeleted={() => returnToList()}
+            onBack={() => returnToList()}
             onLoginRequired={handleLoginRequired}
           />
         );
@@ -282,8 +292,10 @@ function App() {
       if (page === "haiku-list") {
         return (
           <HaikuListPage
+            initialState={haikuListState}
             onCreate={openCreatePage}
-            onEdit={(haiku) => {
+            onEdit={(haiku, listState) => {
+              setHaikuListState(listState);
               setEditingHaiku(haiku);
               setPage("haiku-edit");
             }}

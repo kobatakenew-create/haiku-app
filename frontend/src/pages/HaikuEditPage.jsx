@@ -67,7 +67,7 @@ function HaikuEditPage({ haiku, onSaved, onDeleted, onBack, onLoginRequired }) {
         points === "" ? null : Number(points),
         memo,
       );
-      onSaved();
+      onSaved({ haikuId: haiku.haikuId, season });
     } catch (error) {
       handleError(error);
     } finally {
