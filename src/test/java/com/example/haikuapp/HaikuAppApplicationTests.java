@@ -1,9 +1,9 @@
 package com.example.haikuapp;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+
+@IsolatedDatabaseTest
 class HaikuAppApplicationTests {
 
     @Test

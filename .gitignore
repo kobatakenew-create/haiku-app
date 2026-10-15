@@ -43,3 +43,6 @@ frontend/dist/
 
 ### Logs ###
 *.log
+### Browser test results ###
+frontend/playwright-report/
+frontend/test-results/
