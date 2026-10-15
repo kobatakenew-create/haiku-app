@@ -1,6 +1,7 @@
 import HaikuTitle from "../components/HaikuTitle";
-import { useEffect, useState } from "react";
-import { getMeetings } from "../api/meetingApi";
+import { useEffect, useRef, useState } from "react";
+import { getMeetings, getMeetingHaikus } from "../api/meetingApi";
+import { showMeetingPrintWindow } from "../utils/meetingPdf";
 
 export default function MeetingListPage({
   onCreate,
@@ -10,6 +11,9 @@ export default function MeetingListPage({
   onLoginRequired,
 }) {
   const [meetings, setMeetings] = useState([]);
+  const [exportingId, setExportingId] = useState(null);
+  const [pdfError, setPdfError] = useState("");
+  const exportLock = useRef(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [loadVersion, setLoadVersion] = useState(0);
@@ -51,6 +55,41 @@ export default function MeetingListPage({
     };
   }, [loadVersion, onLoginRequired]);
 
+  async function exportPdf(meeting) {
+    if (exportLock.current) return;
+    setPdfError("");
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) {
+      setPdfError("PDF画面を開けませんでした。このサイトのポップアップを許可してください。");
+      return;
+    }
+    printWindow.opener = null;
+    printWindow.document.title = "俳句を読み込んでいます";
+    printWindow.document.body.textContent = "俳句を読み込んでいます…";
+    exportLock.current = true;
+    setExportingId(meeting.meetingId);
+    try {
+      const haikus = await getMeetingHaikus(meeting.meetingId);
+      if (printWindow.closed) return;
+      if (haikus.length === 0) {
+        printWindow.close();
+        setPdfError("この句会にはまだ俳句が登録されていません。");
+        return;
+      }
+      showMeetingPrintWindow(printWindow, meeting, haikus);
+    } catch (error) {
+      if (!printWindow.closed) printWindow.close();
+      if (error.status === 401) {
+        onLoginRequired();
+        return;
+      }
+      setPdfError("PDF用の俳句を読み込めませんでした。もう一度お試しください。");
+    } finally {
+      exportLock.current = false;
+      setExportingId(null);
+    }
+  }
+
   function retryLoad() {
     setError("");
     setIsLoading(true);
@@ -72,6 +111,8 @@ export default function MeetingListPage({
           ホームへ戻る
         </button>
       </div>
+
+      {pdfError && <p className="error-message haiku-list-message" role="alert">{pdfError}</p>}
 
       {isLoading ? (
         <p className="haiku-list-message" role="status">
@@ -135,6 +176,16 @@ export default function MeetingListPage({
                     aria-label={`${meeting.meetingName}を編集する`}
                   >
                     編集
+                  </button>
+
+                  <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={() => exportPdf(meeting)}
+                    disabled={exportingId !== null}
+                    aria-label={`${meeting.meetingName}の全俳句をPDFにする`}
+                  >
+                    {exportingId === meeting.meetingId ? "準備中…" : "PDF"}
                   </button>
                 </div>
               </article>
