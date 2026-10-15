@@ -111,6 +111,14 @@ p[role="status"] {
   border: 1px solid var(--color-border);
 }
 
+/* Safariの日付入力欄も、他の入力欄と同じ幅に収める。 */
+.auth-card input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  min-width: 0;
+  max-width: 100%;
+}
+
 .auth-card small {
   margin-top: 6px;
   color: #626b5e;
