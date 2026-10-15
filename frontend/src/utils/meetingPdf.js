@@ -38,6 +38,7 @@ export function buildMeetingPrintHtml(meeting, haikus) {
     '@media screen { main { overflow-x: auto; } }' +
     '@media print { .toolbar { display: none; } .sheet { margin: 0; } }' +
     '</style></head><body><div class="toolbar">' +
+    '<button type="button" id="back-button">句会一覧へ戻る</button> ' +
     '<button type="button" id="print-button">PDF保存・印刷</button>' +
     '<p>印刷画面の保存先で「PDFに保存」を選んでください。俳句だけを出す場合は「ヘッダーとフッター」をオフにしてください。</p>' +
     '</div><main>' + pages.join('') + '</main></body></html>';
@@ -55,4 +56,7 @@ export function showMeetingPrintWindow(printWindow, meeting, haikus) {
     }
   };
   printWindow.document.getElementById('print-button').addEventListener('click', print);
+  printWindow.document.getElementById('back-button').addEventListener('click', () => {
+    printWindow.close();
+  });
 }
