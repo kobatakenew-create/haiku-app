@@ -28,6 +28,7 @@ public class UserLoginService {
 
         return new LoginResult(user.userId(), user.loginId());
     }
+    
     public Optional<LoginResult> findCurrentUser(Long userId) {
         return userLoginPort.findById(userId)
                 .map(user -> new LoginResult(user.userId(), user.loginId()));

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
-                                     user_id BIGINT NOT NULL AUTO_INCREMENT,
-                                     login_id VARCHAR(50) NOT NULL,
+    user_id BIGINT NOT NULL AUTO_INCREMENT,
+    login_id VARCHAR(50) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     created_at DATETIME(6) NOT NULL,
 
@@ -8,13 +8,13 @@ CREATE TABLE IF NOT EXISTS users (
 
     CONSTRAINT uq_users_login_id
     UNIQUE (login_id)
-    ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS haikus (
-                                      haiku_id BIGINT NOT NULL AUTO_INCREMENT,
-                                      user_id BIGINT NOT NULL,
-                                      text VARCHAR(20) NOT NULL,
+    haiku_id BIGINT NOT NULL AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    text VARCHAR(20) NOT NULL,
     season VARCHAR(10) NOT NULL,
     status VARCHAR(10) NOT NULL,
     self_evaluation VARCHAR(10) NOT NULL DEFAULT '無印',
@@ -41,13 +41,13 @@ CREATE TABLE IF NOT EXISTS haikus (
     CHECK (points IS NULL OR points BETWEEN 1 AND 20),
 
     INDEX idx_haikus_user_created (user_id, created_at, haiku_id)
-    ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS remember_me_tokens (
-                                                  token_id BIGINT NOT NULL AUTO_INCREMENT,
-                                                  user_id BIGINT NOT NULL,
-                                                  token_hash CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    token_id BIGINT NOT NULL AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    token_hash CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
     expires_at DATETIME(6) NOT NULL,
 
     PRIMARY KEY (token_id),
@@ -61,13 +61,13 @@ CREATE TABLE IF NOT EXISTS remember_me_tokens (
 
     INDEX idx_remember_me_tokens_user (user_id),
     INDEX idx_remember_me_tokens_expires (expires_at)
-    ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS meetings (
-                                        meeting_id BIGINT NOT NULL AUTO_INCREMENT,
-                                        user_id BIGINT NOT NULL,
-                                        meeting_name VARCHAR(100) NOT NULL,
+    meeting_id BIGINT NOT NULL AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    meeting_name VARCHAR(100) NOT NULL,
     meeting_date DATE NOT NULL,
     theme VARCHAR(100),
     created_at DATETIME(6) NOT NULL,
@@ -79,19 +79,19 @@ CREATE TABLE IF NOT EXISTS meetings (
     FOREIGN KEY (user_id) REFERENCES users (user_id),
 
     INDEX idx_meetings_user_date (
-                                     user_id,
-                                     meeting_date,
-                                     meeting_id
-                                 )
-    ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4;
+        user_id,
+        meeting_date,
+        meeting_id
+    )
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS meeting_haikus (
-                                              meeting_haiku_id BIGINT NOT NULL AUTO_INCREMENT,
-                                              meeting_id BIGINT NOT NULL,
-                                              haiku_id BIGINT NOT NULL,
-                                              points INT NULL,
-                                              created_at DATETIME(6) NOT NULL,
+    meeting_haiku_id BIGINT NOT NULL AUTO_INCREMENT,
+    meeting_id BIGINT NOT NULL,
+    haiku_id BIGINT NOT NULL,
+    points INT NULL,
+    created_at DATETIME(6) NOT NULL,
 
     PRIMARY KEY (meeting_haiku_id),
 
@@ -108,5 +108,5 @@ CREATE TABLE IF NOT EXISTS meeting_haikus (
 
     CONSTRAINT chk_meeting_haikus_points
     CHECK (points IS NULL OR points BETWEEN 1 AND 20)
-    ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4;
